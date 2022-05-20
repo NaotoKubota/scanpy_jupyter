@@ -24,7 +24,7 @@ docker build --rm -t naotokubota/scanpy_jupyter:1.0 .
 ## running
 
 ```sh
-docker run --rm -v `pwd`:/home/jovyan/work -p 10000:8888 --name jupyter jupyter/scipy-notebook
+docker run --rm -v `pwd`:/home/jovyan/work -p 10000:8888 naotokubota/scanpy_jupyter:1.0
 ```
 
 Copy token, access `localhost:10000` on your local browser, and paste token.
