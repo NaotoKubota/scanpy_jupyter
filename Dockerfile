@@ -3,7 +3,7 @@
 # Based on ubuntu
 ###############################################################
 
-FROM jupyter/scipy-notebook:latest
+FROM jupyter/scipy-notebook:notebook-6.4.12
 
 # File Author / Maintainer
 LABEL maintainer="Naoto Kubota <naotok@ucr.edu>"
