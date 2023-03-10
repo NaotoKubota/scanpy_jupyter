@@ -13,7 +13,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 # install scanpy
 RUN conda install -y -c conda-forge scanpy python-igraph leidenalg pybind11 hnswlib && \
     conda install -y -c bioconda scvelo && \
-    pip3 install torch torchvision && \
     pip3 install scvi-tools
 
 # install MetBrewer
