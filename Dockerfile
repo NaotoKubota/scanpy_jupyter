@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # install scanpy
 RUN conda install -y -c conda-forge scanpy python-igraph leidenalg pybind11 hnswlib pynndescent==0.5.10 umap-learn==0.5.3 && \
-    conda install -y -c bioconda scvelo harmonypy && \
+    conda install -y -c bioconda scvelo harmonypy scrublet && \
     pip3 install scvi-tools
 
 # install MetBrewer
