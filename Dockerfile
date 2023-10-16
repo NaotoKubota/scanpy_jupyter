@@ -11,11 +11,21 @@ LABEL maintainer="Naoto Kubota <naotok@ucr.edu>"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install scanpy
-RUN conda install -y -c conda-forge scanpy python-igraph leidenalg pybind11 hnswlib pynndescent==0.5.10 umap-learn==0.5.3 && \
-    conda install -y -c bioconda scvelo harmonypy scrublet phate && \
-    pip3 install scvi-tools
+RUN conda install -y -c conda-forge scanpy==1.9.5
 
-# install MetBrewer
-RUN git clone https://github.com/BlakeRMills/MetBrewer.git && \
-    cd MetBrewer/Python/ && \
-    python setup.py install
+RUN conda install -y -c conda-forge python-igraph==0.10.8 leidenalg==0.10.1 pybind11==2.11.1 hnswlib==0.7.0 pynndescent==0.5.10 umap-learn==0.5.4
+
+# install scvelo
+RUN conda install -y -c bioconda scvelo==0.2.5
+
+# install harmonypy
+RUN conda install -y -c bioconda harmonypy==0.0.9
+
+# install scrublet
+RUN conda install -y -c bioconda scrublet==0.2.3
+
+# install phate
+RUN conda install -y -c bioconda phate==1.0.11
+
+# install scvi-tools
+RUN pip3 install scvi-tools
