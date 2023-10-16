@@ -1,0 +1,20 @@
+###############################################################
+# Dockerfile to build container images for STREAM
+# Based on jupyter/scipy-notebook
+###############################################################
+
+FROM jupyter/scipy-notebook:python-3.7.12
+
+# File Author / Maintainer
+LABEL maintainer="Naoto Kubota <naotok@ucr.edu>"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# install stream
+RUN conda install -y -c bioconda stream==1.1
+
+# install scanpy
+RUN conda install -y -c bioconda scanpy
+
+# install h5py
+RUN conda install -y -c anaconda h5py==2.9.0
