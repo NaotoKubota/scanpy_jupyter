@@ -10,6 +10,8 @@ LABEL maintainer="Naoto Kubota <naotok@ucr.edu>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+USER root
+
 # install scanpy
 RUN conda install -y -c conda-forge scanpy==1.9.5
 
@@ -29,3 +31,13 @@ RUN conda install -y -c bioconda phate==1.0.11
 
 # install scvi-tools
 RUN pip3 install scvi-tools
+
+# Install Arial font
+RUN apt update && \
+    apt install -y msttcorefonts && \
+    wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb && \
+    dpkg -i ttf-mscorefonts-installer_3.8_all.deb && \
+    fc-cache -fv && \
+    rm -rf ttf-mscorefonts-installer_3.8_all.deb
+
+CMD ["bash"]
