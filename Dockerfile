@@ -40,4 +40,22 @@ RUN apt update && \
     fc-cache -fv && \
     rm -rf ttf-mscorefonts-installer_3.8_all.deb
 
+# Install nbextensions
+RUN conda install -c conda-forge jupyter_contrib_nbextensions && \
+    jupyter contrib nbextension install --system && \
+    jupyter nbextensions_configurator enable --system && \
+    jupyter nbextension enable varInspector/main --system && \
+    jupyter nbextension enable hinterland/hinterland --system && \
+    jupyter nbextension enable toc2/main --system && \
+    jupyter nbextension enable livemdpreview/livemdpreview --system && \
+    jupyter nbextension enable collapsible_headings/main --system && \
+    jupyter nbextension enable execute_time/ExecuteTime --system && \
+    jupyter nbextension enable codefolding/main --system
+
+# Install jupyterthemes
+RUN conda install -c conda-forge jupyterthemes
+
+# Change the default theme
+RUN jt -t onedork -fs 125 -tfs 11 -nfs 115 -cellw 88% -T
+
 CMD ["bash"]
