@@ -58,4 +58,12 @@ RUN conda install -c conda-forge jupyterthemes
 # Change the default theme
 RUN jt -t onedork -fs 125 -tfs 11 -nfs 115 -cellw 88% -T
 
+# Install Arial font
+RUN apt update && \
+    apt install -y msttcorefonts && \
+    wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb && \
+    dpkg -i ttf-mscorefonts-installer_3.8_all.deb && \
+    fc-cache -fv && \
+    rm -rf ttf-mscorefonts-installer_3.8_all.deb
+
 CMD ["bash"]
