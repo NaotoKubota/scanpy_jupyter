@@ -32,14 +32,6 @@ RUN conda install -y -c bioconda phate==1.0.11
 # install scvi-tools
 RUN pip3 install scvi-tools
 
-# Install Arial font
-RUN apt update && \
-    apt install -y msttcorefonts && \
-    wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb && \
-    dpkg -i ttf-mscorefonts-installer_3.8_all.deb && \
-    fc-cache -fv && \
-    rm -rf ttf-mscorefonts-installer_3.8_all.deb
-
 # Install nbextensions
 RUN conda install -c conda-forge jupyter_contrib_nbextensions && \
     jupyter contrib nbextension install --system && \
@@ -64,6 +56,7 @@ RUN apt update && \
     wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb && \
     dpkg -i ttf-mscorefonts-installer_3.8_all.deb && \
     fc-cache -fv && \
-    rm -rf ttf-mscorefonts-installer_3.8_all.deb
+    rm -rf ttf-mscorefonts-installer_3.8_all.deb && \
+    cp /usr/share/fonts/truetype/msttcorefonts/Arial*.ttf /opt/conda/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/
 
 CMD ["bash"]
