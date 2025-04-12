@@ -1,0 +1,47 @@
+###################################################################
+# Dockerfile to build container images for CellOracle and Jupyter
+# Based on ubuntu
+###################################################################
+
+FROM kenjikamimoto126/celloracle_ubuntu:0.18.0
+
+# File Author / Maintainer
+LABEL maintainer="Naoto Kubota <naotok@ucr.edu>"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+USER root
+
+# Install nbextensions
+RUN /opt/miniconda/condabin/conda install -c conda-forge jupyter_contrib_nbextensions && \
+    jupyter contrib nbextension install --system && \
+    jupyter nbextensions_configurator enable --system && \
+    jupyter nbextension enable varInspector/main --system && \
+    jupyter nbextension enable hinterland/hinterland --system && \
+    jupyter nbextension enable toc2/main --system && \
+    jupyter nbextension enable livemdpreview/livemdpreview --system && \
+    jupyter nbextension enable collapsible_headings/main --system && \
+    jupyter nbextension enable execute_time/ExecuteTime --system && \
+    jupyter nbextension enable codefolding/main --system
+
+# Install jupyterthemes
+RUN /opt/miniconda/condabin/conda install -c conda-forge jupyterthemes
+
+# Change the default theme
+RUN jt -t onedork -fs 125 -tfs 11 -nfs 115 -cellw 88% -T
+
+# Install Arial font
+RUN apt update && \
+    apt install -y msttcorefonts && \
+    wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb && \
+    dpkg -i ttf-mscorefonts-installer_3.8_all.deb && \
+    fc-cache -fv && \
+    rm -rf ttf-mscorefonts-installer_3.8_all.deb && \
+    cp /usr/share/fonts/truetype/msttcorefonts/Arial*.ttf /opt/miniconda/envs/celloracle_env/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/
+
+# Install plotly
+RUN /opt/miniconda/condabin/conda install -c conda-forge plotly==5.15.0
+
+CMD ["bash"]
+
+# singularity exec --bind ~/:/home ~/bigdata/singularity/scanpy_jupyter_celloracle-0.18.0.sif jupyter notebook --port=8888 --ip=0.0.0.0 --allow-root --no-browser
