@@ -3,18 +3,43 @@
 # Based on jupyter/scipy-notebook
 ###############################################################
 
-FROM jupyter/scipy-notebook:python-3.7.12
+FROM jupyter/scipy-notebook:notebook-6.4.12
 
 # File Author / Maintainer
 LABEL maintainer="Naoto Kubota <naotok@ucr.edu>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+USER root
+
 # install stream
-RUN conda install -y -c bioconda stream==1.1
+RUN pip install git+https://github.com/pinellolab/STREAM2
 
-# install scanpy
-RUN conda install -y -c bioconda scanpy
+# Install nbextensions
+RUN conda install -c conda-forge jupyter_contrib_nbextensions && \
+    jupyter contrib nbextension install --system && \
+    jupyter nbextensions_configurator enable --system && \
+    jupyter nbextension enable varInspector/main --system && \
+    jupyter nbextension enable hinterland/hinterland --system && \
+    jupyter nbextension enable toc2/main --system && \
+    jupyter nbextension enable livemdpreview/livemdpreview --system && \
+    jupyter nbextension enable collapsible_headings/main --system && \
+    jupyter nbextension enable execute_time/ExecuteTime --system && \
+    jupyter nbextension enable codefolding/main --system
 
-# install h5py
-RUN conda install -y -c anaconda h5py==2.9.0
+# Install jupyterthemes
+RUN conda install -c conda-forge jupyterthemes
+
+# Change the default theme
+RUN jt -t onedork -fs 125 -tfs 11 -nfs 115 -cellw 88% -T
+
+# Install Arial font
+RUN apt update && \
+    apt install -y msttcorefonts && \
+    wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.8_all.deb && \
+    dpkg -i ttf-mscorefonts-installer_3.8_all.deb && \
+    fc-cache -fv && \
+    rm -rf ttf-mscorefonts-installer_3.8_all.deb && \
+    cp /usr/share/fonts/truetype/msttcorefonts/Arial*.ttf /opt/conda/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/
+
+CMD ["bash"]
